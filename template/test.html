@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   </head>
+<body>
+
+<script>
+    var URL = "{% url 'jspassingvariable' %}";
+    function updatePieFact(){
+        //const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        var data = {'pieFact': 'pieFact',csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value};
+        $.post(URL, data, function(response){
+            console.log("post worked");
+            if(response === 'success'){ alert('Yay!'); }
+            else{ alert('Error! :('); }
+        });
+    }
+    
+$(document).ready(function(){
+    var latitude, longitude, data;
+    var x = document.getElementById("demo");
+    $('#location').click(function(){
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position){
+                var URL = "{% url 'jspassingvariable' %}";
+                latitude = position.coords.latitude; 
+                longitude = position.coords.longitude;
+                data = {'latitude': latitude, 'longitude': longitude, csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value};
+                $.post(URL, data, function(response){
+                    console.log("post worked");
+                    
+                });
+            });
+        } else { 
+            x.innerHTML = "Geolocation is not supported by this browser.";
+        }
+    });
+    
+});
+</script>
+
+
+    {% csrf_token %}
+    <!-- <button id="bttnMinus" >-</button>
+    <button id="bttnPlus" >+</button> -->
+    <!--<input type="button" id="testing" value="post">-->
+    <p id="demo" ></p>
+    <input type="button" value="locate your address" id="location" >
+    <p>{{ mytext }}</p>
+
+</body>
+</html>
+

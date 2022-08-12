@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   </head>
+<body>
+
+    {% csrf_token %}
+
+    <input type="button" id="testing" onclick="getLocation()" value="get my location latitude,longitude">
+    <p id="loading"></p>
+    <p id="latitude"></p>
+    <p id="longitude"></p>
+    <p id="area"></p>
+    <p id="city"></p>
+    <p id="ipadd"></p>
+<script>
+
+var latitude,longitude;
+var URL = "{% url 'jspassingvariable' %}";
+
+function getLocation() {
+    // var ipaddress = '';
+    if (navigator.geolocation) {
+        // console.log(navigator.geolocation)
+        $("#loading").html("loading please wait for few seconds");
+        navigator.geolocation.getCurrentPosition(function(position){
+            latitude = position.coords.latitude;
+            longitude = position.coords.longitude;
+            
+            $.get("https://api.ipify.org?format=json", function(data){
+                ipaddress = data.ip;
+                senddata(); // because of outofscope i am calling another function in $.get ajax method
+            });
+            
+            function senddata(){
+                console.log(ipaddress);
+                data = {'latitude': latitude, 'longitude': longitude, 'ipaddress': ipaddress, csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value};
+            
+                $.post(URL, data, function(response){
+                    console.log("post worked");
+                    console.log(response);
+                    $("#loading").hide();
+                    $("#latitude").html("latitude is "+response.latitude);
+                    $("#longitude").html("longitude is "+response.longitude);
+                    $("#area").html("area is "+response.area);
+                    $("#city").html("city is "+response.city);
+                    $("#ipadd").html("your ipaddress is "+response.ip);
+                    // $("#distinct").html("distinct is "+response.distinct);
+                });
+            }
+            
+
+            
+        });
+    } 
+    else if(!navigator.geolocation){
+        alert("allow the location ");
+    }
+    else {
+        // x.innerHTML = "Geolocation is not supported by this browser.";
+        alert("Geolocation is not supported by this browser.");
+    }
+}
+
+</script>
+
+</body>
+</html>
+
