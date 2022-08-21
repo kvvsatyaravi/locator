@@ -15,7 +15,7 @@ def js_passing(request):
         ipaddress = request.POST['ipaddress']
         latitude_get = request.POST['latitude']
         longitude_get = request.POST['longitude']
-        geolocator = Nominatim(user_agent="geoapiExercises")
+        geolocator = Nominatim(user_agent="geoapi")
         location = geolocator.reverse(latitude_get+","+longitude_get)
         address = location.raw['address']
         area = address.get('suburb','')
