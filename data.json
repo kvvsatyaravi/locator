@@ -1,0 +1,24 @@
+{
+    "users": [
+        {
+            "ip": "139.5.249.186",
+            "latitude": "17.4784512",
+            "longitude": "78.3745024",
+            "area": "Ward 107 Madhapur",
+            "city": "Hyderabad",
+            "raw_address": {
+                "residential": "Vasantha City",
+                "suburb": "Ward 107 Madhapur",
+                "city_district": "Serilingampalle mandal",
+                "city": "Hyderabad",
+                "county": "Kukatpally mandal",
+                "state_district": "Medchal\u2013Malkajgiri",
+                "state": "Telangana",
+                "ISO3166-2-lvl4": "IN-TG",
+                "postcode": "500084",
+                "country": "India",
+                "country_code": "in"
+            }
+        }
+    ]
+}

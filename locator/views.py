@@ -21,8 +21,35 @@ def js_passing(request):
         area = address.get('suburb','')
         city = address.get('city', '')
         
-        results = {'latitude': latitude_get, 'longitude': longitude_get, 'area': area, 'city': city, 'raw_address': address, 'ip': ipaddress}
-        with open('./data.json', 'w', encoding='utf-8') as f:
-            json.dump(results, f, ensure_ascii=False, indent=4)
+        results = {
+            'ip': ipaddress,
+            'latitude': latitude_get, 
+            'longitude': longitude_get, 
+            'area': area, 
+            'city': city, 
+            'raw_address': address
+            }
+
+        with open('./data.json','r+') as file:
+            # First we load existing data into a dict.
+            file_data = json.load(file)
+            print(file_data)
+            print(file_data["users"])
+            if( len(file_data["users"]) == 0 ):
+                file_data["users"].append(results)
+                # Sets file's current position at offset.
+                file.seek(0)
+                # convert back to json.
+                json.dump(file_data, file, indent = 4)
+            else:
+                for i in file_data["users"]:
+                    if(i["ip"] != ipaddress):
+                        # Sets file's current position at offset.
+                        file.seek(0)
+                        # convert back to json.
+                        json.dump(file_data, file, indent = 4)
+                    else:
+                        print("you already entered same website")
+
         return HttpResponse(json.dumps(results), content_type="application/json") 
     

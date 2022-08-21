@@ -19,6 +19,6 @@ from . import views
 
 urlpatterns = [
     path('', views.index),
-    path('post/', views.index, name="jspassingvariable"),
+    path('post/', views.js_passing, name="jspassingvariable"),
     path('admin/', admin.site.urls),
 ]
