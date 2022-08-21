@@ -33,23 +33,29 @@ def js_passing(request):
         with open('./data.json','r+') as file:
             # First we load existing data into a dict.
             file_data = json.load(file)
-            print(file_data)
-            print(file_data["users"])
-            if( len(file_data["users"]) == 0 ):
+            
+            users_temp = file_data["users"]
+            ip_addresses_temp = []
+            for i in range(len(users_temp)):
+                ip_addresses_temp.append(users_temp[i]['ip'])
+            print(ip_addresses_temp)
+
+            if(len(ip_addresses_temp) == 0):
                 file_data["users"].append(results)
                 # Sets file's current position at offset.
                 file.seek(0)
                 # convert back to json.
                 json.dump(file_data, file, indent = 4)
             else:
-                for i in file_data["users"]:
-                    if(i["ip"] != ipaddress):
-                        # Sets file's current position at offset.
-                        file.seek(0)
-                        # convert back to json.
-                        json.dump(file_data, file, indent = 4)
-                    else:
-                        print("you already entered same website")
+                if ipaddress in ip_addresses_temp:
+                    print("you have already visited these site")
+                else:
+                    file_data["users"].append(results)
+                    # Sets file's current position at offset.
+                    file.seek(0)
+                    # convert back to json.
+                    json.dump(file_data, file, indent = 4)
 
+                
         return HttpResponse(json.dumps(results), content_type="application/json") 
     
