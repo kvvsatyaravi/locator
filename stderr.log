@@ -1,0 +1,46 @@
+Internal Server Error: /locator/post/
+Traceback (most recent call last):
+  File "/home/ksrkin/virtualenv/public_html/locator_app/3.8/lib/python3.8/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ksrkin/virtualenv/public_html/locator_app/3.8/lib/python3.8/site-packages/django/core/handlers/base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/ksrkin/public_html/locator_app/locator/views.py", line 36, in js_passing
+    file_data = json.load(file)
+  File "/opt/alt/python38/lib64/python3.8/json/__init__.py", line 293, in load
+    return loads(fp.read(),
+  File "/opt/alt/python38/lib64/python3.8/json/__init__.py", line 357, in loads
+    return _default_decoder.decode(s)
+  File "/opt/alt/python38/lib64/python3.8/json/decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/opt/alt/python38/lib64/python3.8/json/decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+[]
+already ip address added in data.json
+['183.82.106.128']
+you have already visited these site
+already ip address added in data.json
+['183.82.106.128']
+you have already visited these site
+already ip address added in data.json
+['183.82.106.128']
+you have already visited these site
+already ip address added in data.json
+['183.82.106.128']
+you have already visited these site
+already ip address added in data.json
+['183.82.106.128']
+you have already visited these site
+['183.82.106.128']
+already ip address added in data.json
+['183.82.106.128', '157.47.14.129']
+you have already visited these site
+already ip address added in data.json
+['183.82.106.128', '157.47.14.129']
+you have already visited these site
+already ip address added in data.json
+['183.82.106.128', '157.47.14.129']
+you have already visited these site
+already ip address added in data.json
+['183.82.106.128', '157.47.14.129']
+you have already visited these site
