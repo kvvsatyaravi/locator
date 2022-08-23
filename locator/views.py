@@ -2,12 +2,16 @@ from django.http import HttpResponse,JsonResponse
 from django.shortcuts import render
 from geopy.geocoders import Nominatim
 import json,socket
+import requests
 
 def index(request):
-	Template_get="index.html"
-	
-	if request.method=='GET':
-		return render(request,Template_get)
+    Template_get="index.html"
+    if request.method=='GET':
+        
+        return render(request,Template_get)
+    
+    if request.method == 'POST':
+        userip = request.POST['user_ip']
 
 		
 def js_passing(request):

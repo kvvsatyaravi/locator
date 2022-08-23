@@ -20,6 +20,7 @@ from . import views
 
 urlpatterns = [
     path('', views.index),
+    path('getip/', views.index, name="getip"),
     path('post/', views.js_passing, name="jspassingvariable"),
     path('admin/', admin.site.urls),
 ]
