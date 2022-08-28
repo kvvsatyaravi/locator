@@ -14,16 +14,18 @@
             {% csrf_token %}
     
             <div class="card-body">
-                <h5 class="card-title">if you want your location details then click on the button</h5>
+                <h5 class="card-title">if you want your location details then click on the blue button and allow location permission</h5>
                 <a onclick="getLocation()" class="btn btn-primary">Click Here</a>
                 <p id="visited"></p>
                 <p id="no_visitor"></p>
                 <div id="loading"></div>
-                <p id="latitude"></p>
-                <p id="longitude"></p>
-                <p id="area"></p>
-                <p id="city"></p>
-                <p id="ipadd"></p>
+                <div class="container">
+                    <p id="latitude"></p>
+                    <p id="longitude"></p>
+                    <p id="address"></p>
+                    <p id="pincode"></p>
+                    <p id ="thankyou"></p>
+                </div>
             </div>
         </div>
     </div>
@@ -58,8 +60,9 @@ function getLocation() {
     $('#visited').hide();
     $('#ipadd').hide();
     if (navigator.geolocation) {
-        $('#loading').prepend('<img src="./loading.gif"  width="100"/>');
+        var static = "{% static 'loading.gif' %}";
         navigator.geolocation.getCurrentPosition(function(position){
+            $('#loading').prepend('<img src='+ static +' style="height: 100px;"/>');
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
             senddata();
@@ -83,13 +86,12 @@ function senddata(){
         console.log("post worked");
         console.log(response);
         $("#loading").hide();
-
+        var raw_address = response.raw_address;
         $("#latitude").html("latitude is "+response.latitude);
         $("#longitude").html("longitude is "+response.longitude);
-        $("#area").html("area is "+response.area);
-        $("#city").html("city is "+response.city);
-        $("#ipadd").html("your ipaddress is "+response.ipaddress);
-        // $("#distinct").html("distinct is "+response.distinct);
+        $("#address").html("your location is "+ raw_address.suburb + "," + raw_address.city + ","+ raw_address.state);
+        $("#pincode").html("pincode is "+raw_address.postcode);
+        $("#thankyou").html("thank you for visiting these webpage");
     });
 }
 
