@@ -16,7 +16,9 @@
             <div class="card-body">
                 <h5 class="card-title">if you want your location details then click on the button</h5>
                 <a onclick="getLocation()" class="btn btn-primary">Click Here</a>
-                <p id="loading"></p>
+                <p id="visited"></p>
+                <p id="no_visitor"></p>
+                <div id="loading"></div>
                 <p id="latitude"></p>
                 <p id="longitude"></p>
                 <p id="area"></p>
@@ -27,7 +29,7 @@
     </div>
     
 <script>
-
+$("#ipadd").html("loading ip address");
 var latitude,longitude, ipaddress;
 var ip = $.get("https://api.ipify.org?format=json");
     
@@ -35,9 +37,15 @@ ip.then(
         function(value){
             ipaddress = value.ip;
             var URL = "{% url 'getip' %}";
-            data = {'user_ip': ipaddress };
+            data = {'user_ip': ipaddress , csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value};
             $.post(URL, data, function(response){
                 console.log("getting user ip by using js");
+                console.log(response)
+                if(response.visited){
+                    $("#visited").html("you already visited these website");
+                }
+                $("#_no_visitor").html("website visitors count "+response.no_visitors);
+                $("#ipadd").html("your ipaddress is "+response.visitorip);
             });
         },
         function(error){
@@ -48,7 +56,7 @@ ip.then(
 
 function getLocation() {
     if (navigator.geolocation) {
-        $("#loading").html("loading please wait for few seconds");
+        $('#loading').prepend('<img src="./loading.gif"  width="100"/>')
         navigator.geolocation.getCurrentPosition(function(position){
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
@@ -67,8 +75,7 @@ function getLocation() {
 
 
 function senddata(){
-    console.log("your ip address is "+ipaddress);
-    data = {'latitude': latitude, 'longitude': longitude, 'ipaddress': ipaddress, csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value};
+    data = {'latitude': latitude, 'longitude': longitude, csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value};
     var URL = "{% url 'jspassingvariable' %}";
     $.post(URL, data, function(response){
         console.log("post worked");
