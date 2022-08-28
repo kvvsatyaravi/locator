@@ -4,7 +4,7 @@ from geopy.geocoders import Nominatim
 import json
 
 ipaddress = ''
-visitor_ip_address = []
+visitors_ipdata = []
 
 def index(request):
     Template_get="index.html"
@@ -12,16 +12,17 @@ def index(request):
         return render(request,Template_get)
     
     if request.method == 'POST':
+        global ipaddress
         ipaddress = request.POST['user_ip']
         users_data = {"visitorip": ipaddress ,"visited": 0}
         with open('./data.json','r+') as file:
             # First we load existing data into a dict.
 
             load_data = json.load(file)
-            visitor_ip_address = load_data["ipaddresses"]
-            users_data["no_visitors"] = len(visitor_ip_address)
+            visitors_ipdata = load_data["ipaddresses"]
+            users_data["no_visitors"] = len(visitors_ipdata)
             
-            if ipaddress in visitor_ip_address:
+            if ipaddress in visitors_ipdata:
                 print("you already visited these website")
                 users_data["visited"] = 1 
             else:
@@ -33,6 +34,7 @@ def index(request):
 
 		
 def js_passing(request):
+    ip_addresses_temp = []
     if request.method == 'POST':
         latitude_get = request.POST['latitude']
         longitude_get = request.POST['longitude']
@@ -43,7 +45,7 @@ def js_passing(request):
         city = address.get('city', '')
         
         results = {
-            'ip': ipaddress,
+            'ipaddress': ipaddress,
             'latitude': latitude_get, 
             'longitude': longitude_get, 
             'area': area, 
@@ -53,18 +55,20 @@ def js_passing(request):
 
         with open('./data.json','r+') as file:
             # First we load existing data into a dict.
-
+            ip_addresses_temp = []
             file_data = json.load(file)
             users_temp = file_data["users"]
-
-            if(len(visitor_ip_address) == 0):
+            for i in range(len(users_temp)):
+                ip_addresses_temp.append(users_temp[i]['ipaddress'])
+            
+            if(len(users_temp) == 0):
                 file_data["users"].append(results)
                 # Sets file's current position at offset.
                 file.seek(0)
                 # convert back to json.
                 json.dump(file_data, file, indent = 4)
             else:
-                if ipaddress in visitor_ip_address:
+                if ipaddress in ip_addresses_temp:
                     print("you have already visited these site")
                 else:
                     file_data["users"].append(results)

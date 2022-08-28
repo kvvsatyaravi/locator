@@ -29,7 +29,7 @@
     </div>
     
 <script>
-$("#ipadd").html("loading ip address");
+// $("#ipadd").html("loading ip address");
 var latitude,longitude, ipaddress;
 var ip = $.get("https://api.ipify.org?format=json");
     
@@ -44,8 +44,8 @@ ip.then(
                 if(response.visited){
                     $("#visited").html("you already visited these website");
                 }
-                $("#_no_visitor").html("website visitors count "+response.no_visitors);
-                $("#ipadd").html("your ipaddress is "+response.visitorip);
+                $("#no_visitor").html("website visitors counts : "+response.no_visitors);
+                // $("#ipadd").html("your ipaddress is "+response.visitorip);
             });
         },
         function(error){
@@ -55,8 +55,10 @@ ip.then(
     
 
 function getLocation() {
+    $('#visited').hide();
+    $('#ipadd').hide();
     if (navigator.geolocation) {
-        $('#loading').prepend('<img src="./loading.gif"  width="100"/>')
+        $('#loading').prepend('<img src="./loading.gif"  width="100"/>');
         navigator.geolocation.getCurrentPosition(function(position){
             latitude = position.coords.latitude;
             longitude = position.coords.longitude;
@@ -81,11 +83,12 @@ function senddata(){
         console.log("post worked");
         console.log(response);
         $("#loading").hide();
+
         $("#latitude").html("latitude is "+response.latitude);
         $("#longitude").html("longitude is "+response.longitude);
         $("#area").html("area is "+response.area);
         $("#city").html("city is "+response.city);
-        $("#ipadd").html("your ipaddress is "+response.ip);
+        $("#ipadd").html("your ipaddress is "+response.ipaddress);
         // $("#distinct").html("distinct is "+response.distinct);
     });
 }
